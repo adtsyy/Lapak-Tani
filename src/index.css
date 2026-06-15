@@ -1,0 +1,514 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Colors */
+  --primary-base: 142; /* Green representing fresh plants */
+  --primary: hsl(var(--primary-base), 72%, 29%);
+  --primary-rgb: 21, 100, 49;
+  --primary-light: hsl(var(--primary-base), 65%, 45%);
+  --primary-dark: hsl(var(--primary-base), 80%, 18%);
+  
+  --accent-base: 38; /* Harvest Gold/Orange representing mature grains */
+  --accent: hsl(var(--accent-base), 95%, 48%);
+  --accent-light: hsl(var(--accent-base), 95%, 60%);
+  
+  --danger: hsl(0, 84%, 60%);
+  --success: hsl(142, 70%, 45%);
+  --warning: hsl(38, 92%, 50%);
+  
+  /* Theme tokens (Light Theme default) */
+  --bg-app: hsl(142, 20%, 97%);
+  --bg-surface: hsl(142, 20%, 100%);
+  --bg-surface-elevated: hsl(142, 10%, 98%);
+  --border: hsl(142, 15%, 88%);
+  --border-focus: hsl(var(--primary-base), 70%, 45%);
+  --text-main: hsl(210, 24%, 16%);
+  --text-muted: hsl(210, 12%, 46%);
+  --text-inverse: hsl(0, 0%, 100%);
+  
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-primary: 0 4px 14px rgba(21, 100, 49, 0.2);
+  
+  --border-radius-xs: 6px;
+  --border-radius-sm: 12px;
+  --border-radius-md: 18px;
+  --border-radius-lg: 28px;
+  --border-radius-full: 9999px;
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Outfit', var(--font-sans);
+  
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Dark Mode Tokens */
+[data-theme="dark"] {
+  --bg-app: hsl(142, 15%, 8%);
+  --bg-surface: hsl(142, 10%, 12%);
+  --bg-surface-elevated: hsl(142, 8%, 16%);
+  --border: hsl(142, 10%, 20%);
+  --border-focus: hsl(var(--primary-base), 60%, 55%);
+  --text-main: hsl(210, 20%, 94%);
+  --text-muted: hsl(210, 8%, 68%);
+  --text-inverse: hsl(142, 15%, 8%);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #1a231d; /* Elegant deep-forest background for the simulator viewport */
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Desktop Mobile Simulator Wrapper */
+.simulator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at top left, #1d3324 0%, #0d140e 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.simulator-background-decor {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(21, 100, 49, 0.15) 0%, transparent 70%);
+  top: -100px;
+  right: -100px;
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.simulator-background-decor-2 {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+  bottom: -200px;
+  left: -200px;
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+/* Desktop Frame */
+.phone-mockup {
+  width: 412px;
+  height: 846px;
+  border: 12px solid #2d312e;
+  border-radius: 50px;
+  background-color: var(--bg-app);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 4px #1c1f1d;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: width var(--transition-normal), height var(--transition-normal), border-radius var(--transition-normal);
+}
+
+/* Fullscreen Web View Toggle override */
+.phone-mockup.full-web {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Speaker Notch & Camera */
+.phone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 28px;
+  background-color: #2d312e;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.phone-camera {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #111;
+  box-shadow: inset 0 0 3px rgba(255,255,255,0.4);
+}
+
+.phone-speaker {
+  width: 45px;
+  height: 4px;
+  border-radius: 2px;
+  background: #444;
+  margin-left: 12px;
+}
+
+/* Simulator Controls Panel */
+.simulator-controls {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 100;
+}
+
+.sim-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-fast);
+}
+
+.sim-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+}
+
+.sim-btn.active {
+  background: var(--primary);
+  border-color: var(--primary-light);
+}
+
+/* Status Bar Inside Mobile */
+.phone-status-bar {
+  height: 38px;
+  background-color: var(--bg-app);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 24px 6px 24px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-main);
+  z-index: 999;
+  user-select: none;
+}
+
+/* Inner App Shell */
+.app-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--bg-app);
+}
+
+.app-content {
+  flex: 1;
+  min-height: 0; /* required for overflow-y: auto to work inside flex */
+  overflow-y: auto;
+  padding-bottom: 75px; /* space for bottom nav */
+  scroll-behavior: smooth;
+}
+
+/* Home Indicator Bar at the bottom */
+.phone-home-indicator {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 5px;
+  background-color: var(--text-main);
+  opacity: 0.3;
+  border-radius: var(--border-radius-full);
+  z-index: 999;
+  pointer-events: none;
+}
+
+/* General Layouts */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-link {
+  font-size: 0.8rem;
+  color: var(--primary-light);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.glass-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition-spring);
+  border: 1px solid transparent;
+  outline: none;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-primary);
+}
+
+.btn-primary:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(21, 100, 49, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: var(--bg-surface-elevated);
+  border-color: var(--border);
+  color: var(--text-main);
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+  transform: translateY(-1px);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+}
+
+.btn-accent:hover {
+  background: var(--accent-light);
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--border-radius-full);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--border-radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.badge-primary {
+  background: rgba(21, 100, 49, 0.1);
+  color: var(--primary-light);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.badge-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+/* Input Styles */
+.form-group {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.input-field {
+  padding: 9px 12px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border);
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.input-field:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(21, 100, 49, 0.15);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseBorder {
+  0% { box-shadow: 0 0 0 0px rgba(21, 100, 49, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(21, 100, 49, 0); }
+  100% { box-shadow: 0 0 0 0px rgba(21, 100, 49, 0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-normal) forwards;
+}
+
+.animate-pulse {
+  animation: pulseBorder 2s infinite;
+}
+
+/* Floating Notification Pill */
+.toast-pill {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(21, 100, 49, 0.95);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: var(--border-radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  z-index: 1100;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Tablet & Real Mobile Breakpoint */
+@media (max-width: 768px) {
+  body {
+    background-color: var(--bg-app);
+  }
+  
+  .simulator-container {
+    padding: 0;
+    background: transparent;
+  }
+  
+  .phone-mockup {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  
+  .phone-notch {
+    display: none;
+  }
+  
+  .phone-status-bar {
+    display: none;
+  }
+  
+  .simulator-controls {
+    display: none;
+  }
+  
+  .phone-home-indicator {
+    display: none;
+  }
+}
